@@ -1,0 +1,44 @@
+class Solution {
+    public int[][] generateMatrix(int n) {
+        if (n < 0){
+            return null;
+        }
+        int[][] matrix = new int[n][n];
+        int sr = 0, sc = 0;
+        int er = n-1, ec = n-1;
+        int num = 1;
+
+        // Work on 2-D submatrix ranging from Row startRow to endRow,
+        // Column startColumn to endColumn
+
+        while (sr < er && sc < ec) {
+            // Top edge, left-to-right
+            for (int i = sc; i < ec; i++)
+                matrix[sr][i] = num++;
+
+            // Right edge, top-to-bottom
+            for (int i=sr; i<er; i++)
+                matrix[i][ec] = num++;
+
+            // Bottom edge, right-to-left
+            for (int i = ec; i > sc; i--)
+                matrix[er][i] = num++;
+
+            // Left edge, bottom-to-top
+            for (int i=er; i>sr; i--)
+                matrix[i][sc] = num++;
+
+            // Prepare to work on its nested submatrix
+            sr++;
+            sc++;
+            er--;
+            ec--;
+        }
+        // When n is odd, there is still one cell at the center of the matrix
+        // that has not been assigned a value
+        if ((n & 1) == 1){
+             matrix[sr][sc] = num;
+        }
+        return matrix;
+    }
+}
