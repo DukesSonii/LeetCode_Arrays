@@ -1,0 +1,42 @@
+class Solution {
+    public int[][] insert(int[][] intervals, int[] newInterval) {
+        List<int[]> ans = new LinkedList<>();
+        int i=0;
+        int len = intervals.length;
+        // safe intervals before merging
+        //endpoint of ith interval is less than start of newinterval
+        while(i<len && intervals[i][1]< newInterval[0]){
+            ans.add(intervals[i]);
+            i++;
+        }
+
+        // merging part
+        //end of newinterval is greater than start of start of newinterval
+        while(i<len && intervals[i][0] <= newInterval[1]){
+            //0 is startpt so newinterval[start] 
+            newInterval[0] = Math.min(newInterval[0], intervals[i][0]);
+
+            //1 is endpt so newinterval[end] 
+            newInterval[1] = Math.max(newInterval[1], intervals[i][1]);
+            i++;
+        }
+
+        ans.add(newInterval);
+
+        //elements that have to be added in you resultant array where no overlapping exists
+        while(i<len){
+            ans.add(intervals[i]);
+            i++;
+        }
+
+        //add ans in your resultant array i.e res
+        int[][] res = new int[ans.size()][2];    //2 bcoz there are only start and end points
+        int j=0;
+        while(j<ans.size()){
+            res[j] = ans.get(j);
+            j++;
+        }
+        return res;
+
+    }
+}
