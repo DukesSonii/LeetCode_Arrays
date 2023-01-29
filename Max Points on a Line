@@ -1,0 +1,30 @@
+class Solution {
+    public int maxPoints(int[][] p) {
+        // If there are 0 or 1 points, there is at most one line that can be formed
+        int n = p.length;
+        if(n<=2){
+            return n;
+        }
+          // Initialize the maximum number of points on a line to 2, since there must be at least 2     points to form a line
+        int ans=2;
+        for(int i=0;i<n;i++){
+            for(int j=i+1;j<n;j++){
+            //i and j points already taken so at this point points/total = 2
+               int total=2;
+            //now iterate over the points except i and j points what are 2 points having same slope 
+                for(int k=0;k<n;k++){
+                    if(k!=i && k!=j){
+                        int x = (p[j][1]-p[i][1]) * (p[k][0]-p[i][0]);
+                        int y = (p[k][1]-p[i][1]) * (p[j][0]-p[i][0]);
+                        if(x==y){
+                            total++;
+                        }
+                        
+                    }
+                }
+                ans = Math.max(ans,total);
+            }
+        }
+        return ans;
+    }
+}
